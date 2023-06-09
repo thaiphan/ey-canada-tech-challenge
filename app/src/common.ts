@@ -2,6 +2,12 @@
 import Axios from 'axios'
 import axiosRetry from 'axios-retry';
 
+export interface BookingRequest {
+  username: string
+  bookingDate: string
+  location: string
+}
+
 export interface Booking {
   id: string
   username: string
