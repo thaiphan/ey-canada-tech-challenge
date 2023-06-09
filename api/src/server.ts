@@ -6,12 +6,12 @@ import { v4 as uuid } from 'uuid'
 const app = express()
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(cors())
 
 const api = express.Router()
 
-api.get('/getBookings', async (res, req) => {
+api.get('/bookings', async (res, req) => {
   const db = await connect()
   // Catch errors
   try {
@@ -22,7 +22,7 @@ api.get('/getBookings', async (res, req) => {
   }
 })
 
-api.post('/addBooking', async (req, res) => {
+api.post('/bookings', async (req, res) => {
   const db = await connect()
   // Catch errors
   try {
@@ -34,14 +34,8 @@ api.post('/addBooking', async (req, res) => {
       throw Error('Booking already exists for that date!')
     }
 
-    let id;
-    (async () => {
-      do {
-        id = uuid()
-      } while (!(await db.query(`SELECT * FROM bookings WHERE "id" = '${id}'`)).rowCount)
-    })()
 
-    await db.query(`INSERT INTO bookings ("id", "createdDate", "bookingDate", "location", "username") VALUES ('${id}', NOW(), '${bookingDate}', '${location}', '${username}')`)
+    await db.query(`INSERT INTO bookings ("createdDate", "bookingDate", "location", "username") VALUES (NOW(), '${bookingDate}', '${location}', '${username}')`)
 
     res.json({ message: 'Booking Created!' });
   } catch (ex) {
@@ -49,12 +43,23 @@ api.post('/addBooking', async (req, res) => {
   }
 });
 
-api.get('/deleteBooking', async (req, res) => {
+api.delete('/bookings/:bookingId', async (req, res) => {
   const db = await connect();
   // Catch errors
   try {
-    await db.query(`DELETE FROM bookings WHERE "id"='${req.query.id}'`)
+    await db.query(`DELETE FROM bookings WHERE "id"='${req.params.bookingId}'`)
     res.json({ message: 'Booking Deleted!' })
+  } catch (ex) {
+    res.json({ error: `Database Error!`, ...ex })
+  }
+})
+
+api.get('/locations', async (req, res) => {
+  const db = await connect();
+  // Catch errors
+  try {
+    const { rows } = await db.query(`SELECT * FROM locations`)
+    res.json(rows)
   } catch (ex) {
     res.json({ error: `Database Error!`, ...ex })
   }
