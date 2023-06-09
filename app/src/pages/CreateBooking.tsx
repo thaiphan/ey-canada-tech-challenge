@@ -66,10 +66,12 @@ export default function CreateBooking() {
 
               if (bookingDate < new Date()) {
                 showError("Cannot book in the past!");
+                return;
               }
 
               if (!username) {
                 showError("No username provided!");
+                return;
               }
 
               axios
