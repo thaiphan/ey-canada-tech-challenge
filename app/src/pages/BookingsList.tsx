@@ -7,11 +7,13 @@ import moment from 'moment'
 export default function BookingsList() {
   const [bookings, setBookings] = useState<Booking[]>([])
   
-  axios
+  useEffect(() => {
+    axios
     .get('http://localhost:4000/api/getBookings')
     .then(({ data }) => {
       setBookings(data)
     })
+  }, [])
 
   return <>
     <div className="row">
