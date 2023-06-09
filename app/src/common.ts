@@ -18,3 +18,8 @@ export interface Booking {
   createdDate: string
   location: string
 }
+
+export interface Location {
+  id: string
+  location: string
+}

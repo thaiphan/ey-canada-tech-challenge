@@ -1,10 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Booking, BookingRequest, Response } from '../../common';
+import { Booking, BookingRequest, Response, Location } from '../../common';
 
 export const fixerupperApi = createApi({
   reducerPath: 'fixerupperApi',
   baseQuery: fetchBaseQuery({ baseUrl: `${process.env.REACT_APP_API_HOST}api/` }),
-  tagTypes: ['Booking'],
+  tagTypes: ['Booking', 'Location'],
   endpoints: builder => ({
     getBookings: builder.query<Booking[], void>({
       query: () => 'bookings',
@@ -24,8 +24,12 @@ export const fixerupperApi = createApi({
         url: `bookings/${id}`,
       }),
       invalidatesTags: ['Booking']
+    }),
+    getLocations: builder.query<Location[], void>({
+      query: () => 'locations',
+      providesTags: ['Location']
     })
   })
 })
 
-export const { useGetBookingsQuery, useAddBookingMutation, useDeleteBookingMutation } = fixerupperApi
+export const { useGetBookingsQuery, useAddBookingMutation, useDeleteBookingMutation, useGetLocationsQuery } = fixerupperApi

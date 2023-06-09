@@ -1,13 +1,16 @@
 import { useState } from "react";
-import { useAddBookingMutation } from "../store/apis/fixerupper";
-
-const LOCATIONS = ["Vancouver", "Victoria", "Calgary", "Toronto"];
+import {
+  useAddBookingMutation,
+  useGetLocationsQuery,
+} from "../store/apis/fixerupper";
 
 export default function CreateBooking() {
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
 
   const [addBooking] = useAddBookingMutation();
+
+  const { data: locations } = useGetLocationsQuery();
 
   function showError(msg: string) {
     setErrorMsg(msg);
@@ -35,8 +38,8 @@ export default function CreateBooking() {
         <div className="col h4">Booking Location</div>
         <div className="col">
           <select id="location">
-            {LOCATIONS.map((loc) => {
-              return <option key={loc}>{loc}</option>;
+            {locations?.map((loc) => {
+              return <option key={loc.id}>{loc.location}</option>;
             })}
           </select>
         </div>

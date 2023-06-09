@@ -54,6 +54,17 @@ api.delete('/bookings/:bookingId', async (req, res) => {
   }
 })
 
+api.get('/locations', async (req, res) => {
+  const db = await connect();
+  // Catch errors
+  try {
+    const { rows } = await db.query(`SELECT * FROM locations`)
+    res.json(rows)
+  } catch (ex) {
+    res.json({ error: `Database Error!`, ...ex })
+  }
+})
+
 app.use('/api', api)
 app.listen(4000, () => {
   console.log('server started on port 4000')
