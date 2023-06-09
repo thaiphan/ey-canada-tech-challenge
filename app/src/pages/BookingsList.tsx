@@ -29,7 +29,7 @@ export default function BookingsList() {
       <div className="col"></div>
     </div>
     {bookings.map((booking) => {
-      return (<div className="row" style={{border: "1px solid black"}}>
+      return (<div key={booking.id} className="row" style={{border: "1px solid black"}}>
         <div className="col">
           {moment(booking.bookingDate).toDate().toDateString()}
         </div>
