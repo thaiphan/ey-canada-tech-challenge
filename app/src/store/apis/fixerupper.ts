@@ -7,24 +7,21 @@ export const fixerupperApi = createApi({
   tagTypes: ['Booking'],
   endpoints: builder => ({
     getBookings: builder.query<Booking[], void>({
-      query: () => 'getBookings',
+      query: () => 'bookings',
       providesTags: ['Booking']
     }),
     addBooking: builder.mutation<Response, BookingRequest>({
       query: (body) => ({
         method: 'POST',
-        url: 'addBooking',
+        url: 'bookings',
         body
       }),
       invalidatesTags: ['Booking']
     }),
     deleteBooking: builder.mutation<Response, string>({
       query: (id) => ({
-        method: 'GET',
-        url: 'deleteBooking',
-        params: {
-          id
-        }
+        method: 'DELETE',
+        url: `bookings/${id}`,
       }),
       invalidatesTags: ['Booking']
     })
