@@ -3,7 +3,7 @@ import { Booking } from '../../common';
 
 export const fixerupperApi = createApi({
   reducerPath: 'fixerupperApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:4000/api/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: `${process.env.REACT_APP_API_HOST}api/` }),
   tagTypes: ['Booking'],
   endpoints: builder => ({
     getBookings: builder.query<Booking[], void>({
