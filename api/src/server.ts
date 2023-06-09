@@ -34,14 +34,8 @@ api.post('/bookings', async (req, res) => {
       throw Error('Booking already exists for that date!')
     }
 
-    let id;
-    (async () => {
-      do {
-        id = uuid()
-      } while (!(await db.query(`SELECT * FROM bookings WHERE "id" = '${id}'`)).rowCount)
-    })()
 
-    await db.query(`INSERT INTO bookings ("id", "createdDate", "bookingDate", "location", "username") VALUES ('${id}', NOW(), '${bookingDate}', '${location}', '${username}')`)
+    await db.query(`INSERT INTO bookings ("createdDate", "bookingDate", "location", "username") VALUES (NOW(), '${bookingDate}', '${location}', '${username}')`)
 
     res.json({ message: 'Booking Created!' });
   } catch (ex) {
