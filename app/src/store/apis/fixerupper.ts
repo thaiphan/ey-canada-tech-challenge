@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Booking, BookingRequest } from '../../common';
+import { Booking, BookingRequest, Response } from '../../common';
 
 export const fixerupperApi = createApi({
   reducerPath: 'fixerupperApi',
@@ -10,7 +10,7 @@ export const fixerupperApi = createApi({
       query: () => 'getBookings',
       providesTags: ['Booking']
     }),
-    addBooking: builder.mutation<{ message: string }, BookingRequest>({
+    addBooking: builder.mutation<Response, BookingRequest>({
       query: (body) => ({
         method: 'POST',
         url: 'addBooking',
@@ -18,7 +18,7 @@ export const fixerupperApi = createApi({
       }),
       invalidatesTags: ['Booking']
     }),
-    deleteBooking: builder.mutation<{ message: string }, string>({
+    deleteBooking: builder.mutation<Response, string>({
       query: (id) => ({
         method: 'GET',
         url: 'deleteBooking',

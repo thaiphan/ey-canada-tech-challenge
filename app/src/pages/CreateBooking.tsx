@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { axios } from "../common";
+import { useAddBookingMutation } from "../store/apis/fixerupper";
 
 const LOCATIONS = ["Vancouver", "Victoria", "Calgary", "Toronto"];
 
 export default function CreateBooking() {
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
+
+  const [addBooking] = useAddBookingMutation();
 
   function showError(msg: string) {
     setErrorMsg(msg);
@@ -74,13 +76,13 @@ export default function CreateBooking() {
                 return;
               }
 
-              axios
-                .post("http://localhost:4000/api/addBooking", {
-                  bookingDate,
-                  username,
-                  location,
-                })
-                .then(({ data }) => {
+              addBooking({
+                bookingDate,
+                username,
+                location,
+              })
+                .unwrap()
+                .then((data) => {
                   if (data.error) {
                     showError(data.error);
                   } else {

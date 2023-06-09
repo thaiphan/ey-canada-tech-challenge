@@ -1,10 +1,13 @@
 
-import Axios from 'axios'
-import axiosRetry from 'axios-retry';
+// Refactor to be discriminated union type
+export type Response = {
+  error: string;
+  message: string
+}
 
 export interface BookingRequest {
   username: string
-  bookingDate: string
+  bookingDate: Date
   location: string
 }
 
@@ -15,6 +18,3 @@ export interface Booking {
   createdDate: string
   location: string
 }
-
-export const axios = Axios.create({ baseURL: 'http://localhost:4000/api' })
-axiosRetry(axios, { retries: 5 });
